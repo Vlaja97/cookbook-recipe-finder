@@ -31,3 +31,6 @@ class New_recipe(TemplateView):
             return redirect('/')
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
+    def upload(self, request):
+        return render(request, self.template_name)
+

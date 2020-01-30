@@ -1,10 +1,14 @@
 from django.urls import path
 from .views import New_recipe
 from . import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from account.views import registration_view
 
 urlpatterns = [
     path('', views.base, name='cookbook-app-base'),
-    path('home/', views.home, name='cookbook_app-home'),
     path('about/', views.about, name='cookbook_app-about'),
-     path('new_recipe/', New_recipe.as_view(), name='cookbook_app-new_recipe'),
+    path('new_recipe/', New_recipe.as_view(), name='cookbook_app-new_recipe'),
+    path('register/', registration_view, name='cookbook_app-register')
 ]
+
+urlpatterns += staticfiles_urlpatterns()

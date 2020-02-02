@@ -10,5 +10,3 @@ urlpatterns = [
     path('new_recipe/', New_recipe.as_view(), name='cookbook_app-new_recipe'),
     path('register/', registration_view, name='cookbook_app-register')
 ]
-
-urlpatterns += staticfiles_urlpatterns()

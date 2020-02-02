@@ -35,9 +35,24 @@
       </nav>
 
       {% block content %}
+      <div class="col-sm-6 col-sm-offset-3">
       {% for recipe in recipes %}
-        {{ recipe }}
-     {% endfor %}
+      <div class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <!-- Implement link to author-->
+            
+            <h2>{{ recipe }}</h2>
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" width="240" alt="">
+        </div>
+        </div>
+      </div >
+        
+        {% endif %}
+      
+      {% endfor %}
+      </div>
       {% endblock %}
     
     

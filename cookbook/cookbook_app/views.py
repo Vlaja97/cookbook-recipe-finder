@@ -23,7 +23,7 @@ class New_recipe(TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = RecipeForm(request.POST)
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             text = form.cleaned_data['name']
@@ -31,6 +31,3 @@ class New_recipe(TemplateView):
             return redirect('/')
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
-    def upload(self, request):
-        return render(request, self.template_name)
-

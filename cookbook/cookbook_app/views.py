@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Recipe
 from .forms import RecipeForm
 from django.views.generic import TemplateView
+from django.db.models import Q
 
 def base(request):
     return render(request, 'base.html', {'recipes': Recipe.objects.all})
@@ -31,3 +32,15 @@ class New_recipe(TemplateView):
             return redirect('/')
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
+
+def search(query=None):
+    queryset = []
+    quieries = query.split(" ")
+    for q in quieries:
+        recipes = Recipe.objects.filter(
+                Q(name__icontains=q) 
+            ).distinct()
+
+        for recipe in recipes:
+            queryset.append(recipe)
+    return list(set(queryset))

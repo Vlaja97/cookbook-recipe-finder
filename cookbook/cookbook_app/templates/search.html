@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+ 
+{% if recipes %}
+<h2>{{ recipe.name }}</h2>
+<h2>{{ recipe.body }}</h2>
+{% else %}
+
+      <div>
+        <h2>No searches</h2>
+      </div>
+
+{% endif %}
+
+
+{% endblock content %}

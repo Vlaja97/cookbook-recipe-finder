@@ -4,13 +4,20 @@ from .models import Recipe
 from .forms import RecipeForm
 from django.views.generic import TemplateView
 from django.db.models import Q
+import re
+
 
 def base(request):
-    return render(request, 'base.html', {'recipes': Recipe.objects.all})
+    context = {}
+    # Search bar functionality
+    query = request.GET.get("q", None)
+    recipes = Recipe.objects.all()
+    if query is not None:
+        recipes = recipes.filter(Q(body__icontains=query) |
+                                 Q(name__icontains=query))
+    context['recipes'] = recipes
+    return render(request, 'base.html', context)
 
-def home(request):
-    context = 'context'
-    return render(request, 'home.html', {'context': context})
 
 def about(request):
     context = 'context'
@@ -33,14 +40,3 @@ class New_recipe(TemplateView):
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
-def search(query=None):
-    queryset = []
-    quieries = query.split(" ")
-    for q in quieries:
-        recipes = Recipe.objects.filter(
-                Q(name__icontains=q) 
-            ).distinct()
-
-        for recipe in recipes:
-            queryset.append(recipe)
-    return list(set(queryset))

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from account.forms import RegistrationForm
-
+from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 def registration_view(request):
     context = {}
@@ -20,3 +22,25 @@ def registration_view(request):
         form = RegistrationForm()
         context['registration_form'] = form
     return render(request, 'register.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def profile_view(request):
+    return render(request, 'profile.html')
+
+def login_view(request):
+    context = {}
+    if request.POST:
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+
+            user = form.get_user()
+            login(request, user)
+
+            return redirect('/')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
